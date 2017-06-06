@@ -1,0 +1,30 @@
+html, body, #root, .view {
+  height: 100%;
+}
+
+.view {
+  display: flex;
+}
+
+.sidebar {
+  width: 225px;
+  border-right: 5px solid #f5f5f5;
+}
+
+.sidebar-heading {
+  margin: 10px;
+}
+
+.sidebar-label {
+  margin-left: 10px;
+}
+
+.content {
+  flex: 1;
+}
+
+.content-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 15px;
+}
