@@ -16,6 +16,9 @@ sidebar genre =
     [ div [class "sidebar-heading"] [text "App"]
     , maybeMenu genre.genres]
 
+-- MENU
+
+-- Handle different stages of response
 maybeMenu : WebData GenreFetchModel -> Html Msg
 maybeMenu response =
   case response of 
@@ -25,7 +28,7 @@ maybeMenu response =
     RemoteData.Loading ->
       text "Loading..."
 
-    RemoteData.Success genres->
+    RemoteData.Success genres ->
       menu genres.genres
 
     RemoteData.Failure error ->

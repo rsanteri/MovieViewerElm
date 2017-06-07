@@ -2,7 +2,7 @@ module Messages exposing (..)
 
 import Navigation exposing (Location)
 
-import Models exposing (Movie, GenreFetchModel)
+import Models exposing (Movie, GenreFetchModel, MoviesFetchModel)
 import RemoteData exposing (WebData)
 
 type Msg
@@ -11,5 +11,6 @@ type Msg
     | ClearActiveMovie
 
     | OnFetchGenres (WebData GenreFetchModel)
+    | OnFetchMovies (WebData MoviesFetchModel)
 
     | NoOp

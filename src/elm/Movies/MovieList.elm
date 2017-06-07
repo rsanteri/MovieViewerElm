@@ -5,24 +5,39 @@ import Html.Attributes exposing (class, src, href)
 
 import Messages exposing(Msg(SetActiveMovie))
 import Routing exposing (movieGenreDetailPath)
+import Models exposing (MovieModel, Movie, Genre)
 
-movielist : String -> Html Msg
-movielist genre = 
-  div [class "movie-list"] 
-    [ movie genre
-    , movie genre
-    , movie genre
-    , movie genre ]
+import RemoteData exposing (WebData)
 
-movie : String -> Html Msg 
-movie genre = 
-  a [class "movie-card card", href (movieGenreDetailPath genre "the-good-the-bad-the-ugly")]
-    [ div [class "card-image"]
-        [ div [class "image"] 
-          [ img [src "https://i.jeded.com/i/the-good-the-bad-and-the-ugly-il-buono-il-brutto-il-cattivo.154-9123.jpg"] []] ]
+
+movielist : MovieModel -> Maybe Genre -> Html Msg
+movielist movies genre = 
+  case movies.movies of
+    RemoteData.NotAsked ->
+      text "Not asked"
     
-    , div [class "movie-card-content card-content"]
-        [ p [class "movie-title"] [text "The good, the bad and the ugly"]
-        , p [class "movie-genre"] [text "western|classic"]
-        , p [class "movie-actors"] [text "Clint Eastwood, Eli, Wallach, Lee Van Cleef"]]
-    ]
+    RemoteData.Loading ->
+      text "Fetching movies..."
+
+    RemoteData.Success m ->
+      div [class "movie-list"] 
+        (List.map (movie genre) m.results)
+
+    RemoteData.Failure error ->
+      text (toString error)
+
+movie : Maybe Genre -> Movie -> Html Msg 
+movie genre movie =
+  case genre of
+    Nothing -> div [] []
+    Just genre ->
+      a [class "movie-card card", href (movieGenreDetailPath genre.name movie.title)]
+        [ div [class "card-image"]
+            [ div [class "image"] 
+              [ img [src "https://i.jeded.com/i/the-good-the-bad-and-the-ugly-il-buono-il-brutto-il-cattivo.154-9123.jpg"] []] ]
+        
+        , div [class "movie-card-content card-content"]
+            [ p [class "movie-title"] [text movie.title]
+            , p [class "movie-genre"] [text "western|classic"]
+            , p [class "movie-actors"] [text movie.overview]]
+        ]

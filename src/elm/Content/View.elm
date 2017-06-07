@@ -11,4 +11,4 @@ import Movies.MovieList exposing (movielist)
 content : Model -> Html Msg
 content model = 
   div [class "content"] 
-    [ div [class "content-container"] [movielist model.genre.currentGenre] ]
+    [ div [class "content-container"] [movielist model.movie model.genre.currentGenre] ]

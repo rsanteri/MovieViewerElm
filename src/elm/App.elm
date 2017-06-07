@@ -12,11 +12,12 @@ import Sidebar.View exposing (sidebar)
 import Content.View exposing (content)
 import Movies.MovieDetail exposing (moviedetail)
 
-import Models exposing(initialModel, Model, Movie, Route(MovieDetailRoute, MovieGenreRoute))
+import Models exposing(initialModel, Model)
 
 import Commands exposing (fetchGenres)
 
 import Messages exposing(..)
+
 ---- MODEL ----
 
 init : Location -> ( Model, Cmd Msg )
