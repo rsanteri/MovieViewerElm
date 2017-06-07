@@ -18,7 +18,7 @@ moviedetail model =
             [ img [src "https://i.jeded.com/i/the-good-the-bad-and-the-ugly-il-buono-il-brutto-il-cattivo.154-9123.jpg"] [] ]
 
           , div [class "movie-detail-information"]
-            [ a [class "movie-detail-close delete", href (movieGenrePath model.genre)] []
+            [ a [class "movie-detail-close delete", href (movieGenrePath model.genre.currentGenre)] []
             , h1 [class "movie-title"] [text "The Good the bad and the ugly"]
             , p [] [text "Palasin juuri uudesta koulustani, sain tänään tietää, että minun ei tarvitse osallistua ollenkaan ruotsin kielen tunneille, sillä kielitaitoni on niin vahva! Jee, tosi hienoa, saan skipattua kuulemma koko kurssin! Asuin vuonna -98 Ruotsissa ja opiskelin ruotsin kieltä Uppsalan yliopistossa, joten minun ei tarvitse käydä perusasioita enää läpi. "]
             ]

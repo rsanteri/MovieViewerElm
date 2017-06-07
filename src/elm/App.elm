@@ -14,6 +14,8 @@ import Movies.MovieDetail exposing (moviedetail)
 
 import Models exposing(initialModel, Model, Movie, Route(MovieDetailRoute, MovieGenreRoute))
 
+import Commands exposing (fetchGenres)
+
 import Messages exposing(..)
 ---- MODEL ----
 
@@ -23,7 +25,7 @@ init location =
     currentRoute =
       Routing.parseLocation location
   in
-  ( initialModel currentRoute, Cmd.none )
+  ( initialModel currentRoute, fetchGenres )
 
 ---- VIEW ----
 
@@ -31,7 +33,7 @@ init location =
 view : Model -> Html Msg
 view model =
     div [class "view"]
-        [ sidebar
+        [ sidebar model.genre
         , content model
         , moviedetail model
         ]

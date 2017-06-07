@@ -7,21 +7,37 @@ import Messages exposing(..)
 
 import Routing exposing (movieGenrePath)
 
-sidebar : Html Msg
-sidebar =
+import Models exposing (GenreModel, GenreFetchModel, Genre)
+import RemoteData exposing (WebData)
+
+sidebar : GenreModel -> Html Msg
+sidebar genre =
   div [class "sidebar"]
     [ div [class "sidebar-heading"] [text "App"]
-    , menu]
+    , maybeMenu genre.genres]
 
+maybeMenu : WebData GenreFetchModel -> Html Msg
+maybeMenu response =
+  case response of 
+    RemoteData.NotAsked ->
+      text ""
+          
+    RemoteData.Loading ->
+      text "Loading..."
 
-menu : Html Msg
-menu = 
+    RemoteData.Success genres->
+      menu genres.genres
+
+    RemoteData.Failure error ->
+      text (toString error)
+
+menu : List Genre -> Html Msg
+menu genres = 
   div [class "menu"] 
     [ p [class "menu-label sidebar-label"] [ text "Categories" ]
-    , ul [class "menu-list"]
-      [ li [] [ a [href "/#/"] [text "All"]]
-      , li [] [ a [href (movieGenrePath "drama")] [text "Drama"]]
-      , li [] [ a [href (movieGenrePath "western")] [text "Western"]]
-      , li [] [ a [href (movieGenrePath "scifi")] [text "Scifi"]]
-      ]
+    , ul [class "menu-list"] (List.map menuRow genres)
     ]
+
+menuRow : Genre -> Html Msg
+menuRow genre = 
+  li [] [ a [href (movieGenrePath (String.toLower genre.name))] [text genre.name]]

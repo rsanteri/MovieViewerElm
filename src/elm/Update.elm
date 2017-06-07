@@ -7,7 +7,6 @@ import Routing exposing (..)
 
 ---- UPDATE ----
 
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
@@ -15,6 +14,16 @@ update msg model =
       ({model | movie = Just movie}, Cmd.none)
     ClearActiveMovie ->
       ({model | movie = Nothing}, Cmd.none)
+
+    OnFetchGenres response ->
+      let
+        oldGenre = model.genre
+        newGenre = {oldGenre | genres = response}
+      in
+        ( {model | genre = newGenre }, Cmd.none )
+
+    -- ROUTING
+
     OnLocationChange location ->
       let
         newRoute =
@@ -27,10 +36,14 @@ update msg model =
               , movie = Just (Movie name)}, Cmd.none )
           
           MovieGenreRoute genre ->
-            ( { model 
-                | route = newRoute
-                , genre = genre
-                , movie = Nothing}, Cmd.none )
+            let
+              oldGenre = model.genre
+              newGenre = {oldGenre | currentGenre = genre}
+            in
+              ( { model 
+                  | route = newRoute
+                  , genre = newGenre
+                  , movie = Nothing}, Cmd.none )
 
           _ -> 
             ( { model | route = newRoute }, Cmd.none )
