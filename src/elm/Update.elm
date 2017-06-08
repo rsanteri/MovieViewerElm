@@ -45,7 +45,7 @@ update msg model =
           MovieDetailRoute genre name ->
             ( { model 
               | route = newRoute
-              , movie = setCurrentMovie model.movie Nothing}, Cmd.none )
+              , movie = setCurrentMovie model.movie (findMovie model.movie.movies name)}, Cmd.none )
           
           MovieGenreRoute genre ->
             let
@@ -71,11 +71,21 @@ findGenre genres name =
       List.head (List.filter (\g -> (String.toLower g.name) == name) genres.genres)
     _ -> Nothing
 
+
 genreId : Maybe Genre -> Int
 genreId genre = 
   case genre of
     Just genre -> genre.id 
     _ -> 37
+
+
+findMovie : WebData MoviesFetchModel -> String -> Maybe Movie
+findMovie movies name =
+  case movies of
+    RemoteData.Success movies -> 
+      List.head (List.filter (\m -> m.title == name) movies.results)
+    _ -> Nothing
+
 
 setCurrentMovie : MovieModel -> Maybe Movie -> MovieModel
 setCurrentMovie movieModel maybeMovie = { movieModel | currentMovie = maybeMovie }

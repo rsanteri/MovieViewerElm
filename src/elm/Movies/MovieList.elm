@@ -34,7 +34,7 @@ movie genre movie =
       a [class "movie-card card", href (movieGenreDetailPath genre.name movie.title)]
         [ div [class "card-image"]
             [ div [class "image"] 
-              [ img [src "https://i.jeded.com/i/the-good-the-bad-and-the-ugly-il-buono-il-brutto-il-cattivo.154-9123.jpg"] []] ]
+              [ img [src ("https://image.tmdb.org/t/p/w300" ++ movie.poster_path)] []] ]
         
         , div [class "movie-card-content card-content"]
             [ p [class "movie-title"] [text movie.title]
