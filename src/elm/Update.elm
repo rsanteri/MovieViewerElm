@@ -8,6 +8,8 @@ import Commands exposing (fetchMovies)
 
 import RemoteData exposing (WebData)
 
+import Util.Helper exposing (toUrlString)
+
 ---- UPDATE ----
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -21,18 +23,10 @@ update msg model =
     -- FETCHING
 
     OnFetchGenres response ->
-      let
-        oldGenre = model.genre
-        newGenre = {oldGenre | genres = response}
-      in
-        ( {model | genre = newGenre }, Cmd.none )
+      ( {model | genre = setGenres model.genre response }, Cmd.none )
 
     OnFetchMovies response ->
-      let
-        oldMovie = model.movie
-        newMovie = {oldMovie | movies = response}
-      in
-        ( {model | movie = newMovie }, Cmd.none )
+      ( {model | movie = setMovies model.movie response }, Cmd.none )
 
     -- ROUTING
 
@@ -50,12 +44,13 @@ update msg model =
           MovieGenreRoute genre ->
             let
               oldGenre = model.genre
-              newGenre = {oldGenre | currentGenre = findGenre model.genre.genres genre}
+              foundGenre = findGenre model.genre.genres genre
+              newGenre = {oldGenre | currentGenre = foundGenre}
             in
               ( { model 
                   | route = newRoute
                   , genre = newGenre
-                  , movie = setCurrentMovie model.movie Nothing}, fetchMovies (genreId newGenre.currentGenre) )
+                  , movie = { currentMovie = Nothing, movies = RemoteData.Loading }}, fetchMovies (genreId foundGenre))
 
           _ -> 
             ( { model | route = newRoute }, Cmd.none )
@@ -68,14 +63,17 @@ findGenre : WebData GenreFetchModel -> String -> Maybe Genre
 findGenre genres name =
   case genres of
     RemoteData.Success genres -> 
-      List.head (List.filter (\g -> (String.toLower g.name) == name) genres.genres)
+      List.filter (\g -> (toUrlString g.name) == name) genres.genres
+        |> List.head
+        
     _ -> Nothing
 
 
 genreId : Maybe Genre -> Int
 genreId genre = 
   case genre of
-    Just genre -> genre.id 
+    Just genre -> genre.id
+    -- Western by default
     _ -> 37
 
 
@@ -83,9 +81,17 @@ findMovie : WebData MoviesFetchModel -> String -> Maybe Movie
 findMovie movies name =
   case movies of
     RemoteData.Success movies -> 
-      List.head (List.filter (\m -> m.title == name) movies.results)
+      List.filter (\m -> (toUrlString m.title) == name) movies.results
+        |> List.head
+
     _ -> Nothing
 
 
+setMovies : MovieModel -> WebData MoviesFetchModel -> MovieModel
+setMovies movieModel movies = { movieModel | movies = movies }
+
 setCurrentMovie : MovieModel -> Maybe Movie -> MovieModel
 setCurrentMovie movieModel maybeMovie = { movieModel | currentMovie = maybeMovie }
+
+setGenres : GenreModel -> WebData GenreFetchModel -> GenreModel
+setGenres genreModel genres = { genreModel | genres = genres }

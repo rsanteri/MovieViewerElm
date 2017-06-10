@@ -11,6 +11,8 @@ type Msg
     | ClearActiveMovie
 
     | OnFetchGenres (WebData GenreFetchModel)
+
+    | OnFetchMoviesStart Int
     | OnFetchMovies (WebData MoviesFetchModel)
 
     | NoOp

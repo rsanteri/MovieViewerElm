@@ -1,4 +1,4 @@
-html, body, #root, .view {
+html, body, #root {
   height: 100%;
 }
 
@@ -17,10 +17,12 @@ html, body, #root, .view {
 
 .sidebar-label {
   margin-left: 10px;
+  margin-top: 10px;
 }
 
 .content {
   flex: 1;
+  position: relative;
 }
 
 .content-container {

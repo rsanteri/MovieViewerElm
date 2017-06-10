@@ -10,10 +10,13 @@ import Routing exposing (movieGenrePath)
 import Models exposing (GenreModel, GenreFetchModel, Genre)
 import RemoteData exposing (WebData)
 
+import Util.Helper exposing (toUrlString)
+
 sidebar : GenreModel -> Html Msg
 sidebar genre =
   div [class "sidebar"]
     [ div [class "sidebar-heading"] [text "App"]
+    , userMenu
     , maybeMenu genre.genres]
 
 -- MENU
@@ -34,6 +37,16 @@ maybeMenu response =
     RemoteData.Failure error ->
       text (toString error)
 
+userMenu : Html Msg
+userMenu =
+  div [class"menu"]
+    [ p [class "menu-label sidebar-label"] [text "User"]
+    , ul [class "menu-list"]
+      [ li [] [ a [href ""] [text "Watch"]]
+      , li [] [ a [href ""] [text "Starred"]]
+      ]
+    ]
+
 menu : List Genre -> Html Msg
 menu genres = 
   div [class "menu"] 
@@ -43,4 +56,4 @@ menu genres =
 
 menuRow : Genre -> Html Msg
 menuRow genre = 
-  li [] [ a [href (movieGenrePath (String.toLower genre.name))] [text genre.name]]
+  li [] [ a [href (movieGenrePath (toUrlString genre.name))] [text genre.name]]

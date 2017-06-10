@@ -2,26 +2,26 @@ module Movies.MovieList exposing (..)
 
 import Html exposing (Html, div, text, img, p, a)
 import Html.Attributes exposing (class, src, href)
+import Html.Events exposing (onClick)
 
 import Messages exposing(Msg(SetActiveMovie))
-import Routing exposing (movieGenreDetailPath)
-import Models exposing (MovieModel, Movie, Genre)
+import Models exposing (MovieModel, Movie, GenreModel, Genre)
 
 import RemoteData exposing (WebData)
+import Components.Loader exposing (loader)
 
-
-movielist : MovieModel -> Maybe Genre -> Html Msg
-movielist movies genre = 
-  case movies.movies of
+movielist : MovieModel -> GenreModel -> Html Msg
+movielist movieModel genreModel = 
+  case movieModel.movies of
     RemoteData.NotAsked ->
       text "Not asked"
     
     RemoteData.Loading ->
-      text "Fetching movies..."
+      loader
 
     RemoteData.Success m ->
       div [class "movie-list"] 
-        (List.map (movie genre) m.results)
+        (List.map (movie genreModel.currentGenre) m.results)
 
     RemoteData.Failure error ->
       text (toString error)
@@ -31,13 +31,12 @@ movie genre movie =
   case genre of
     Nothing -> div [] []
     Just genre ->
-      a [class "movie-card card", href (movieGenreDetailPath genre.name movie.title)]
+      div [class "movie-card card", onClick (SetActiveMovie movie)]
         [ div [class "card-image"]
             [ div [class "image"] 
               [ img [src ("https://image.tmdb.org/t/p/w300" ++ movie.poster_path)] []] ]
         
         , div [class "movie-card-content card-content"]
             [ p [class "movie-title"] [text movie.title]
-            , p [class "movie-genre"] [text "western|classic"]
-            , p [class "movie-actors"] [text movie.overview]]
+            , p [class "movie-genre"] [text "western|classic"]]
         ]
