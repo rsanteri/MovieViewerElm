@@ -8,7 +8,6 @@ import Messages exposing(Msg(SetActiveMovie))
 import Models exposing (MovieModel, Movie, GenreModel, Genre)
 
 import RemoteData exposing (WebData)
-import Components.Loader exposing (loader)
 
 movielist : MovieModel -> GenreModel -> Html Msg
 movielist movieModel genreModel = 
@@ -17,7 +16,7 @@ movielist movieModel genreModel =
       text "Not asked"
     
     RemoteData.Loading ->
-      loader
+      text "Loading"
 
     RemoteData.Success m ->
       div [class "movie-list"] 

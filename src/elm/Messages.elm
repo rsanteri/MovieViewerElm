@@ -4,6 +4,7 @@ import Navigation exposing (Location)
 
 import Models exposing (Movie, GenreFetchModel, MoviesFetchModel)
 import RemoteData exposing (WebData)
+import Animation exposing (..)
 
 type Msg
     = OnLocationChange Location
@@ -14,5 +15,7 @@ type Msg
 
     | OnFetchMoviesStart Int
     | OnFetchMovies (WebData MoviesFetchModel)
+
+    | Animate Animation.Msg
 
     | NoOp

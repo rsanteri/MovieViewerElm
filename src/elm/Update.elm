@@ -10,6 +10,9 @@ import RemoteData exposing (WebData)
 
 import Util.Helper exposing (toUrlString)
 
+import Animation exposing(update)
+import Components.Loader exposing(hideLoader, showLoader)
+
 ---- UPDATE ----
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -26,7 +29,15 @@ update msg model =
       ( {model | genre = setGenres model.genre response }, Cmd.none )
 
     OnFetchMovies response ->
-      ( {model | movie = setMovies model.movie response }, Cmd.none )
+      ( { model | movie = setMovies model.movie response
+        , loaderStyle = hideLoader model.loaderStyle }, Cmd.none )
+
+    Animate animMsg ->
+          ( { model
+              | loaderStyle = Animation.update animMsg model.loaderStyle
+            }
+          , Cmd.none
+          )
 
     -- ROUTING
 
@@ -39,7 +50,8 @@ update msg model =
           MovieDetailRoute genre name ->
             ( { model 
               | route = newRoute
-              , movie = setCurrentMovie model.movie (findMovie model.movie.movies name)}, Cmd.none )
+              , movie = setCurrentMovie model.movie (findMovie model.movie.movies name)
+              , loaderStyle = showLoader model.loaderStyle }, Cmd.none )
           
           MovieGenreRoute genre ->
             let
@@ -50,7 +62,8 @@ update msg model =
               ( { model 
                   | route = newRoute
                   , genre = newGenre
-                  , movie = { currentMovie = Nothing, movies = RemoteData.Loading }}, fetchMovies (genreId foundGenre))
+                  , movie = { currentMovie = Nothing, movies = RemoteData.Loading }
+                  , loaderStyle = showLoader model.loaderStyle}, fetchMovies (genreId foundGenre))
 
           _ -> 
             ( { model | route = newRoute }, Cmd.none )

@@ -1,6 +1,7 @@
 module Models exposing(..)
 
 import RemoteData exposing (WebData)
+import Animation exposing(..)
 
 initialModel : Route -> Model
 initialModel route =
@@ -13,6 +14,14 @@ initialModel route =
     { currentMovie = Nothing
     , movies = RemoteData.NotAsked
     }
+  , loaderStyle = 
+      Animation.styleWith
+                (Animation.spring
+                    { stiffness = 70
+                    , damping = 20 })
+                [ Animation.opacity 0
+                , Animation.display Animation.none
+                ]
   }
 
 -- Model
@@ -21,6 +30,7 @@ type alias Model =
   { route : Route
   , movie : MovieModel
   , genre : GenreModel
+  , loaderStyle : Animation.State
   }
 
 type alias GenreModel = 

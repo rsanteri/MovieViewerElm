@@ -6,20 +6,6 @@ html, body, #root {
   display: flex;
 }
 
-.sidebar {
-  width: 225px;
-  border-right: 5px solid #f5f5f5;
-}
-
-.sidebar-heading {
-  margin: 10px;
-}
-
-.sidebar-label {
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
 .content {
   flex: 1;
   position: relative;

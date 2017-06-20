@@ -1,0 +1,17 @@
+
+.sidebar {
+  width: 225px;
+  border-right: 5px solid #f5f5f5;
+  position: relative;
+  z-index: 2;
+}
+
+.sidebar-heading {
+  margin: 10px;
+}
+
+.sidebar-label {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
