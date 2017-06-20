@@ -16,3 +16,7 @@ html, body, #root {
   margin: 0 auto;
   padding: 15px;
 }
+
+.info-tag {
+  margin: 10px 5px;
+}
