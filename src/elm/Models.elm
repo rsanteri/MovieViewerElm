@@ -14,6 +14,8 @@ initialModel route =
     { currentMovie = Nothing
     , movies = RemoteData.NotAsked
     }
+  , watchlist = []
+  , starred = []
   , loaderStyle = 
       Animation.styleWith
                 (Animation.spring
@@ -30,6 +32,8 @@ type alias Model =
   { route : Route
   , movie : MovieModel
   , genre : GenreModel
+  , watchlist : List Int
+  , starred : List Int
   , loaderStyle : Animation.State
   }
 

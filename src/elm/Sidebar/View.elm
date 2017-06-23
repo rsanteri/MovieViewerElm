@@ -42,8 +42,8 @@ userMenu =
   div [class"menu"]
     [ p [class "menu-label sidebar-label"] [text "User"]
     , ul [class "menu-list"]
-      [ li [] [ a [href ""] [text "Watch"]]
-      , li [] [ a [href ""] [text "Starred"]]
+      [ li [] [ a [href "#/watch"] [text "Watch"]]
+      , li [] [ a [href "#/favourites"] [text "Starred"]]
       ]
     ]
 

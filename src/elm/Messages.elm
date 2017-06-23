@@ -18,4 +18,10 @@ type Msg
 
     | Animate Animation.Msg
 
+    | AddToWatchlist Int
+    | RemoveFromWatchlist Int
+
+    | AddToStarred Int
+    | RemoveFromStarred Int
+
     | NoOp

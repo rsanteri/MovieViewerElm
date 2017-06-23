@@ -23,6 +23,16 @@ update msg model =
     ClearActiveMovie ->
       ({model | movie = setCurrentMovie model.movie Nothing}, Cmd.none)
 
+    AddToStarred id ->
+      ({ model | starred = List.append model.starred [id] }, Cmd.none)
+    RemoveFromStarred id ->
+      ({ model | starred = List.filter (\idInList -> idInList == id) model.starred }, Cmd.none)
+
+    AddToWatchlist id ->
+      ({ model | watchlist = List.append model.watchlist [id] }, Cmd.none)
+    RemoveFromWatchlist id ->
+      ({ model | watchlist = List.filter (\idInList -> idInList == id) model.watchlist }, Cmd.none)
+
     -- FETCHING
 
     OnFetchGenres response ->

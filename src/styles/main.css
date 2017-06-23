@@ -20,3 +20,8 @@ html, body, #root {
 .info-tag {
   margin: 10px 5px;
 }
+
+.tag.action-tag {
+  margin: 5px;
+  font-size: 12px;
+}
